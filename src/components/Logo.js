@@ -1,12 +1,7 @@
 import React from 'react';
-import '../img/logo.svg';
 
-function Logo() {
-  return (
-    <a className="logo" href="/logo">
-      <img src="img/logo.svg" alt="Logo" />
-    </a>
-  );
+function Logo({ src, width = 60 }) {
+  return <img src={src} alt="Logo" width={width} />;
 }
 
 export default Logo;

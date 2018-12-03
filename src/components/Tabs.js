@@ -5,12 +5,17 @@ class Tabs extends Component {
     currentTab: 0,
   };
 
-  onTabClick = ({ target }) => {
-    const numberOfClickedTab = target.dataset.index;
-    this.setState({ currentTab: numberOfClickedTab });
+  shouldComponentUpdate(nextProps, nextState) {
+    const { currentTab } = this.state;
+    return nextState.currentTab !== currentTab;
+  }
+
+  onTabClick = idx => {
+    this.setState({ currentTab: idx });
   };
 
   render() {
+    console.log('render');
     const { currentTab } = this.state;
     const { children } = this.props;
     return (
@@ -21,8 +26,8 @@ class Tabs extends Component {
               type="button"
               className="sign-tabs__item"
               key={element.type.name}
-              data-index={idx}
-              onClick={this.onTabClick}
+              // data-index={idx}
+              onClick={() => this.onTabClick(idx)}
             >
               {element.type.name}
             </button>

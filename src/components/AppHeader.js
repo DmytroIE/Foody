@@ -1,16 +1,24 @@
 import React from 'react';
 import Logo from './Logo';
-import AppNav from './AppNav';
+import Nav from './Nav';
 import UserMenu from './UserMenu';
 
+const navItems = ['menu', 'about', 'contact', 'delivery'];
+
 function AppHeader(props) {
-  const { avatarURL = ' ../img/avatar-default.jpg ', userName } = props;
+  const { avatarSrc, userName, logoSrc } = props;
   return (
-    <div className="header">
-      <Logo />
-      <AppNav />
-      <UserMenu avatarURL={avatarURL} userName={userName} />
-    </div>
+    <header className="header">
+      <div className="logo">
+        <Logo src={logoSrc} width="100" />
+      </div>
+      <div className="nav">
+        <Nav items={navItems} />
+      </div>
+      <div className="user-menu">
+        <UserMenu avatarSrc={avatarSrc} userName={userName} />
+      </div>
+    </header>
   );
 }
 
