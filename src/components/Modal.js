@@ -3,30 +3,29 @@ import React, { Component, createRef } from 'react';
 class Modal extends Component {
   modalRef = createRef();
 
-  modalWindowRef = createRef();
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleEscPress);
-    this.modalRef.current.addEventListener('click', this.handleClick);
+    // this.modalRef.current.addEventListener('click', this.handleClick);
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleEscPress);
-    this.modalRef.current.removeEventListener('click', this.handleClick);
+    // this.modalRef.current.removeEventListener('click', this.handleClick);
   }
 
-  handleEscPress = ({ key }) => {
+  handleEscPress = ({ code }) => {
     const { onClose } = this.props;
-    if (key === 'Escape') {
+    if (code === 'Escape') {
       onClose();
     }
   };
 
   handleClick = ({ target }) => {
     const { onClose } = this.props;
-    if (!this.modalWindowRef.current.contains(target)) {
-      onClose();
+    if (this.modalRef.current !== target) {
+      return;
     }
+    onClose();
   };
 
   // handleWindowClick = ({ target }) => {
@@ -40,8 +39,8 @@ class Modal extends Component {
   render() {
     const { onClose } = this.props;
     return (
-      <div className="Backdrop" ref={this.modalRef}>
-        <div className="ModalWindow" ref={this.modalWindowRef}>
+      <div className="Backdrop" ref={this.modalRef} onClick={this.handleClick}>
+        <div className="ModalWindow">
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti
             animi dolore quae laborum rerum neque adipisci impedit voluptatum
