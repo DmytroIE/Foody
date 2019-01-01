@@ -1,11 +1,22 @@
-.container {
-  width: 100%;
+.list {
+  display: flex;
 }
 
-.list {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style-type: none;
+.item {
+  margin-right: 20px;
+}
+
+.item:last-child {
+  margin-right: 0;
+}
+
+.link {
+  text-transform: uppercase;
+  color: blue;
+}
+
+.linkActive {
+  composes: link;
+  color: red;
+  font-weight: bold;
 }

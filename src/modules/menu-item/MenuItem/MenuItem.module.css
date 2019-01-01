@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+}
+
+.imgContainer {
+  flex: 0 0 200px;
+  margin-right: 30px;
+}
+
+.list {
+  list-style: disc inside;
+  font-size: 12px;
+}
