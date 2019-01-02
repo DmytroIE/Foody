@@ -25,9 +25,10 @@ export class MenuCardsListContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { location } = this.props;
+    const { location /* , history */ } = this.props;
 
-    // // Мигает при нажатии на ссылку, может, как-то по-другому category=all записывать?
+    // // Слишком много render при нажатии на ссылку
+    // // может, как-то по-другому category=all записывать?
     // if (!getCategoryFromLocation(location)) {
     //   history.replace({
     //     pathname: location.pathname,
