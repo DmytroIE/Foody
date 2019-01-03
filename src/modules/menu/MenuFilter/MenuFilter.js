@@ -4,7 +4,10 @@ import qs from 'query-string';
 
 import { getCategories } from '../../../services/api';
 
-const getCategoryFromLocation = location => qs.parse(location.search).category;
+const getCategoryFromLocation = location => {
+  const { category } = qs.parse(location.search);
+  return category || '';
+};
 
 class MenuFilter extends Component {
   state = { categories: [] };
@@ -30,7 +33,7 @@ class MenuFilter extends Component {
     const { location, history } = this.props;
     history.push({
       pathname: location.pathname,
-      search: `category=all`,
+      search: ``,
     });
   };
 
@@ -43,7 +46,7 @@ class MenuFilter extends Component {
           value={getCategoryFromLocation(location)}
           onChange={this.onCategoryChange}
         >
-          <option key={-1} value="all">
+          <option key={-1} value="">
             All
           </option>
           {categories.map(category => (

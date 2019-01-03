@@ -6,20 +6,23 @@ import MenuCardsListView from './MenuCardsListView';
 
 import { getMenuItemsWithCategory } from '../../../services/api';
 
-const getCategoryFromLocation = location => qs.parse(location.search).category;
+const getCategoryFromLocation = location => {
+  const { category } = qs.parse(location.search);
+  return category || '';
+};
 
 export class MenuCardsListContainer extends Component {
   state = { items: [] };
 
   componentDidMount() {
-    const { location, history } = this.props;
-    if (!getCategoryFromLocation(location)) {
-      history.replace({
-        pathname: location.pathname,
-        search: 'category=all',
-      });
-      return;
-    }
+    const { location /* , history */ } = this.props;
+    // if (!getCategoryFromLocation(location)) {
+    //   history.replace({
+    //     pathname: location.pathname,
+    //     search: 'category=all',
+    //   });
+    //   return;
+    // }
 
     this.fetchItems(getCategoryFromLocation(location));
   }
