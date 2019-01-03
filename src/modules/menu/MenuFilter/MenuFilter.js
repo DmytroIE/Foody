@@ -26,23 +26,36 @@ class MenuFilter extends Component {
     });
   };
 
+  onClearFilter = () => {
+    const { location, history } = this.props;
+    history.push({
+      pathname: location.pathname,
+      search: `category=all`,
+    });
+  };
+
   render() {
     const { location } = this.props;
     const { categories } = this.state;
     return (
-      <select
-        value={getCategoryFromLocation(location)}
-        onChange={this.onCategoryChange}
-      >
-        <option key={-1} value="all">
-          All
-        </option>
-        {categories.map(category => (
-          <option key={category.id} value={category.name}>
-            {category.name}
+      <>
+        <select
+          value={getCategoryFromLocation(location)}
+          onChange={this.onCategoryChange}
+        >
+          <option key={-1} value="all">
+            All
           </option>
-        ))}
-      </select>
+          {categories.map(category => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <button type="button" onClick={this.onClearFilter}>
+          Очистить
+        </button>
+      </>
     );
   }
 }
