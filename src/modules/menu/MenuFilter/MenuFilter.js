@@ -23,10 +23,17 @@ class MenuFilter extends Component {
 
   onCategoryChange = ({ target: { value } }) => {
     const { location, history } = this.props;
-    history.push({
-      pathname: location.pathname,
-      search: `category=${value}`,
-    });
+    if (!value) {
+      history.push({
+        pathname: location.pathname,
+        search: ``,
+      });
+    } else {
+      history.push({
+        pathname: location.pathname,
+        search: `category=${value}`,
+      });
+    }
   };
 
   onClearFilter = () => {
