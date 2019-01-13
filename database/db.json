@@ -140,6 +140,38 @@
         "соль"
       ],
       "id": 9
+    },
+    {
+      "name": "Чизкейк",
+      "description": "Вкусный торт на основе творожной массы",
+      "image": "https://cdn1.harryanddavid.com/wcsstore/HarryAndDavid/images/catalog/18_40000_30w_01ex.jpg",
+      "price": "120",
+      "category": "dessert",
+      "ingredients": [
+        "мука",
+        "творог",
+        "сахар",
+        "молоко",
+        "яйца",
+        "соль"
+      ],
+      "id": 10
+    },
+    {
+      "name": "Тюркский салат с вареной колбасой",
+      "description": "Необычное сочетание вкуса \"докторской\" колбасы со сладостью тушенных бананов и листьев тимьяна.",
+      "image": "https://img2.hochu.ua/pictures_ckfinder/images/salat_quotolivequot_klassicheskii_s_kolbasoi-286788.JPG",
+      "price": "78",
+      "category": "salad",
+      "ingredients": [
+        "колбаса",
+        "бананы",
+        "сыр",
+        "тимьян",
+        "кардамон",
+        "соль"
+      ],
+      "id": 11
     }
   ],
   "categories": [

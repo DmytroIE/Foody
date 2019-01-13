@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
-import { createNewMenuItem, getCategories } from '../../../services/api';
-
 import styles from './AddForm.module.css';
-
-import routes from '../../../configs/routes';
 
 class AddForm extends Component {
   state = {
@@ -16,24 +12,6 @@ class AddForm extends Component {
       category: '',
       ingredients: [],
     },
-    categories: [],
-  };
-
-  async componentDidMount() {
-    try {
-      const categories = await getCategories();
-      this.setState({ categories });
-    } catch (err) {
-      alert(err);
-    }
-  }
-
-  handleCreateItem = async evt => {
-    evt.preventDefault();
-    const { createdItem } = this.state;
-    const { history } = this.props;
-    await createNewMenuItem(createdItem);
-    history.push(routes.MENU.root);
   };
 
   handleInputChange = (name, value) => {
@@ -41,16 +19,19 @@ class AddForm extends Component {
     this.setState({ createdItem: { ...createdItem, [name]: value } });
   };
 
-  // handleInputChange = ({ target: { name, value } }) => {
-  //   const { createdItem } = this.state;
-  //   this.setState({ createdItem: { ...createdItem, [name]: value } });
-  // };
+  handleSubmit = evt => {
+    evt.preventDefault();
+    const { createdItem } = this.state;
+    const { onSubmit } = this.props;
+    onSubmit(createdItem);
+  };
 
   render() {
-    const { createdItem, categories } = this.state;
+    const { createdItem } = this.state;
+    const { categories = [] } = this.props;
 
     return (
-      <form onSubmit={this.handleCreateItem}>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="name" className={styles.inputlabel}>
           Название
           <input
