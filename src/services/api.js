@@ -18,9 +18,6 @@ export const getMenuItemById = async id => {
 };
 
 export const getMenuItemsWithCategory = async category => {
-  if (category === '') {
-    return getAllMenuItems();
-  }
   const response = await axios.get(`/menu?category=${category}`);
   return response.data;
 };

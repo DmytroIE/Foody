@@ -16,7 +16,11 @@ function MenuItemPage(props) {
       <button
         type="button"
         onClick={() => {
-          history.push(location.state.from);
+          if (location.state) {
+            history.push(location.state.from);
+          } else {
+            history.push({ pathname: '/menu', search: '' });
+          }
         }}
       >
         Назад к меню

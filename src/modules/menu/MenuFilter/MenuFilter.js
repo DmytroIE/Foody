@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
-import qs from 'query-string';
+import { getCategoryFromLocation } from '../../../utils/helpers';
+
+// import qs from 'query-string';
 
 import { getCategories } from '../../../services/api';
 
-const getCategoryFromLocation = location => {
-  const { category } = qs.parse(location.search);
-  return category || '';
-};
+// const getCategoryFromLocation = location => {
+//   const { category } = qs.parse(location.search);
+//   return category || '';
+// };
 
 class MenuFilter extends Component {
   state = { categories: [] };

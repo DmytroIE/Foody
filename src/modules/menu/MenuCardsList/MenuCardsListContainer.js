@@ -1,44 +1,32 @@
 import React, { Component } from 'react';
 
-import qs from 'query-string';
+// import qs from 'query-string';
+
+import { getCategoryFromLocation } from '../../../utils/helpers';
 
 import MenuCardsListView from './MenuCardsListView';
 
-import { getMenuItemsWithCategory } from '../../../services/api';
+import {
+  getAllMenuItems,
+  getMenuItemsWithCategory,
+} from '../../../services/api';
 
-const getCategoryFromLocation = location => {
-  const { category } = qs.parse(location.search);
-  return category || '';
-};
+// const getCategoryFromLocation = location => {
+//   const { category } = qs.parse(location.search);
+//   return category || '';
+// };
 
 export class MenuCardsListContainer extends Component {
   state = { items: [] };
 
   componentDidMount() {
-    const { location /* , history */ } = this.props;
-    // if (!getCategoryFromLocation(location)) {
-    //   history.replace({
-    //     pathname: location.pathname,
-    //     search: 'category=all',
-    //   });
-    //   return;
-    // }
+    const { location } = this.props;
 
     this.fetchItems(getCategoryFromLocation(location));
   }
 
   componentDidUpdate(prevProps) {
-    const { location /* , history */ } = this.props;
-
-    // // Слишком много render при нажатии на ссылку
-    // // может, как-то по-другому category=all записывать?
-    // if (!getCategoryFromLocation(location)) {
-    //   history.replace({
-    //     pathname: location.pathname,
-    //     search: 'category=all',
-    //   });
-    //   return;
-    // }
+    const { location } = this.props;
 
     if (
       getCategoryFromLocation(prevProps.location) ===
@@ -52,7 +40,12 @@ export class MenuCardsListContainer extends Component {
 
   fetchItems = async category => {
     try {
-      const items = await getMenuItemsWithCategory(category);
+      let items;
+      if (category === '') {
+        items = await getAllMenuItems();
+      } else {
+        items = await getMenuItemsWithCategory(category);
+      }
       this.setState({ items });
     } catch (err) {
       alert(err);
