@@ -18,7 +18,7 @@ const getOrderHistoryItemByID = id =>
 
 const createOrderHistoryItem = item =>
   axios.post(BASE_URL, item).then(response => {
-    console.log(response);
+    // console.log(response);
     if (response.status !== 201) {
       throw new Error(response.statusText);
     } else return response.data;

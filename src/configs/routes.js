@@ -1,0 +1,15 @@
+export default {
+  AUTH: '/auth',
+  MAIN: '/',
+  MENU: '/menu',
+  MENU_ITEM: '/menu/:id',
+  ORDER_HYSTORY: '/order-history',
+  CART: '/cart',
+  CHECKOUT: '/checkout',
+  ACCOUNT: '/account',
+  PLANNER: '/planner',
+  ABOUT: '/about',
+  CONTACT: '/contact',
+  DELIVERY: '/delivery',
+  FAVOURITES: '/favourites',
+};
