@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { menuItemSchema } from '../../schemas/schemas';
+import { menuItemSchema, menuCategorySchema } from '../../schemas/schemas';
 
 import * as actionTypes from './menuActionTypes';
 
@@ -9,36 +9,35 @@ export const fetchStart = () => ({
 
 export const fetchError = error => ({
   type: actionTypes.FETCH_ERROR,
-  payload: { error },
+  payload: error,
 });
 
-export const fetchAllSuccess = rawMenu => {
+export const fetchAllItemsSuccess = rawMenu => {
   const normMenu = normalize(rawMenu, [menuItemSchema]);
-  // debugger;
   return {
-    type: actionTypes.FETCH_ALL_SUCCESS,
+    type: actionTypes.FETCH_SUCCESS_ALL_ITEMS,
     payload: {
       entities: normMenu.entities,
       IDs: {
-        menuItems: Object.keys(normMenu.entities.menuItems), // normMenu.result,
+        menuItems: Object.keys(normMenu.entities.menuItems), // оно же normMenu.result,
         menuCategories: Object.keys(normMenu.entities.menuCategories),
       },
     },
   };
 };
 
-export const fetchItemSuccess = rawItem => {
-  const item = normalize(rawItem, menuItemSchema);
+export const fetchAllCategoriesSuccess = rawCategories => {
+  const normCategories = normalize(rawCategories, [menuCategorySchema]);
   return {
-    type: actionTypes.FETCH_ITEM_SUCCESS,
-    payload: { item },
+    type: actionTypes.FETCH_SUCCESS_ALL_CATEGORIES,
+    payload: {
+      entities: normCategories.entities,
+      IDs: {
+        menuCategories: Object.keys(normCategories.entities.menuCategories),
+      },
+    },
   };
 };
-
-export const changeCategory = newCategory => ({
-  type: actionTypes.CHANGE_CATEGORY,
-  payload: { newCategory },
-});
 
 export const changeFilter = ({ target: { value } }) => ({
   type: actionTypes.CHANGE_FILTER,

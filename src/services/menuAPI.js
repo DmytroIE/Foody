@@ -1,19 +1,30 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:4000/menu';
+axios.defaults.baseURL = 'http://localhost:4000';
 
-const getMenuItems = () =>
-  axios.get(`${BASE_URL}`).then(response => {
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    } else return response.data;
-  });
+const getAllMenuItems = async () => {
+  const response = await axios.get('/menu');
+  return response.data;
+};
 
-const getMenuItemByID = id =>
-  axios.get(`${BASE_URL}/${id}`).then(response => {
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    } else return response.data;
-  });
+const getAllCategories = async () => {
+  const response = await axios.get('/categories');
+  return response.data;
+};
 
-export { getMenuItems, getMenuItemByID };
+const getMenuItemsByCategory = async category => {
+  const response = await axios.get(`/menu?category.name=${category}`);
+  return response.data;
+};
+
+const getMenuItemById = async id => {
+  const response = await axios.get(`/menu/${id}`);
+  return response.data;
+};
+
+export {
+  getAllMenuItems,
+  getAllCategories,
+  getMenuItemsByCategory,
+  getMenuItemById,
+};

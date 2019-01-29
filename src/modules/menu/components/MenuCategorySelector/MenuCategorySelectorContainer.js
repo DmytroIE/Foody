@@ -5,12 +5,18 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { getCategories } from '../../menuSelectors';
+import { fetchCatedories } from '../../menuOperations';
 
 import { getCategoryFromLocation } from '../../../../utils/helpers';
 
 import MenuCategorySelectorView from './MenuCategorySelectorView';
 
 class MenuCategorySelectorContainer extends Component {
+  componentDidMount() {
+    const { fetchCategories } = this.props;
+    fetchCategories();
+  }
+
   onCategoryChange = ({ target: { value } }) => {
     const { location, history } = this.props;
     if (!value) {
@@ -26,7 +32,7 @@ class MenuCategorySelectorContainer extends Component {
     }
   };
 
-  onClearFilter = () => {
+  onClear = () => {
     const { location, history } = this.props;
     if (!getCategoryFromLocation(location)) return; // чтобы при холостом нажатии на кнопку не перерендеривалась вся страница каждый раз
     history.push({
@@ -42,17 +48,24 @@ class MenuCategorySelectorContainer extends Component {
         value={getCategoryFromLocation(location)}
         categories={categories}
         onChange={this.onCategoryChange}
-        onClear={this.onClearFilter}
+        onClear={this.onClear}
       />
     );
   }
 }
 
-const mapProps = state => ({
+const mapState = state => ({
   categories: getCategories(state),
 });
 
+const mapDispatch = {
+  fetchCategories: fetchCatedories,
+};
+
 export default compose(
   withRouter,
-  connect(mapProps),
+  connect(
+    mapState,
+    mapDispatch,
+  ),
 )(MenuCategorySelectorContainer);

@@ -1,16 +1,13 @@
 import { createSelector } from 'reselect';
 
-import { getCategoryFromLocation } from '../../utils/helpers';
-
-const getItemsEntities = state => state.entities.menuItems;
-const getCategoriesEntities = state => state.entities.menuCategories;
+import common from '../common';
 
 export const getItemsIDs = state => state.menu.items;
 export const getCategoriesIDs = state => state.menu.getCategories;
 export const getFilter = state => state.menu.filter.toLowerCase();
 
 export const getCategories = createSelector(
-  [getCategoriesEntities],
+  [common.selectors.getCategoriesEntities],
   categoriesObj => {
     if (!categoriesObj) {
       return undefined;
@@ -21,59 +18,19 @@ export const getCategories = createSelector(
   },
 );
 
-// export const getCategories = state => {
-//   // debugger
-//   if (state && state.entities && state.entities.menuCategories) {
-//     const t = Object.values(state.entities.menuCategories);
-//     return t;
-//   }
-// };
-
 export const getMenuItems = createSelector(
-  [
-    getItemsEntities,
-    getCategoriesEntities,
-    getFilter,
-    (state, { location }) => getCategoryFromLocation(location),
-  ],
-  (itemsObj, categoriesObj, filter, category) => {
-    // debugger;
+  [common.selectors.getItemsEntities, getItemsIDs, getFilter],
+  (itemsObj, itemsIDs, filter) => {
     if (!itemsObj) {
       return undefined;
     }
 
-    const itemsArray = Object.values(itemsObj); // Если есть опция удаления item, то нужно делать map
+    const itemsArray = itemsIDs.map(id => itemsObj[id]);
+
     const filteredItemsArray = itemsArray.filter(e =>
       e.name.toLowerCase().includes(filter),
     );
-    if (!category) {
-      return filteredItemsArray;
-    }
-    const filteredByCategoryItemsArray = filteredItemsArray.filter(
-      e => categoriesObj[e.category].name === category,
-    );
-    return filteredByCategoryItemsArray;
+
+    return filteredItemsArray;
   },
 );
-
-// export const getMenuItems = (state, ownProps) => {
-//   //debugger;
-//   const { location } = ownProps;
-//   const category = getCategoryFromLocation(location);
-//   let y, r, t;
-//   // по фильтру
-//   if (state && state.entities && state.entities.menuItems) {
-//     y = Object.values(state.entities.menuItems);
-//     r = y.filter(e =>
-//       e.name.toLowerCase().includes(getFilter(state).toLowerCase()),
-//     );
-//     // по категориям
-//     if (!category) {
-//       return r;
-//     }
-//     t = r.filter(
-//       o => state.entities.menuCategories[o.category].name === category,
-//     );
-//     return t;
-//   }
-// }; // временно!!!!

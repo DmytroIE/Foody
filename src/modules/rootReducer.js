@@ -1,16 +1,12 @@
 import { combineReducers } from 'redux';
 
-import common from './common/commonReducer';
-import menu from './menu/menuReducer';
+import common from './common';
+import menu from './menu';
 import user from './user/userReducer';
 
-const entities = (state = {}, action) => {
-  if (action.payload && action.payload.entities) {
-    const s = { ...state, ...action.payload.entities };
-    return s;
-  }
-
-  return state;
-};
-
-export default combineReducers({ entities, common, menu, user });
+export default combineReducers({
+  entities: common.reducers.entities,
+  loading: common.reducers.loading,
+  [menu.NAME]: menu.reducer,
+  user,
+});

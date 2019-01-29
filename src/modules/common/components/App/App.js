@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import AppHeader from '../AppHeader/AppHeader';
 
 // import Modal from '../Modal/Modal';
@@ -13,6 +15,9 @@ import MenuPage from '../../../../pages/MenuPage/MenuPage';
 import MenuItemPage from '../../../../pages/MenuItemPage/MenuItemPage';
 import OrderHistoryPage from '../../../../pages/OrderHistoryPage/OrderHistoryPage';
 import PlannerPage from '../../../../pages/PlannerPage/PlannerPage';
+import Spinner from '../Spinner/Spinner';
+
+import { getLoadingStatus } from '../../commonSelectors';
 
 import routes from '../../../../configs/routes';
 
@@ -38,7 +43,7 @@ class App extends Component {
   // };
 
   render() {
-    // const { isModalOpen } = this.state;
+    const { isLoading } = this.props;
     return (
       <>
         <AppHeader userName={TEST_USERNAME} avatarSrc={TEST_AVATARSRC} />
@@ -63,9 +68,14 @@ class App extends Component {
             <Route path={routes.PLANNER} component={PlannerPage} />
           </Switch>
         </div>
+        {isLoading && <Spinner />}
       </>
     );
   }
 }
 
-export default App;
+const mapState = state => ({
+  isLoading: getLoadingStatus(state),
+});
+
+export default connect(mapState)(App);
