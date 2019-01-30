@@ -9,7 +9,7 @@ function MenuItemCard({ name, imageURL, price }) {
         <img src={imageURL} alt="Meal" />
       </div>
       <h2 className={styles.name}>{name}</h2>
-      <p className={styles.price}>Цена {price} грн</p>
+      <span className={styles.price}>Цена {price} грн</span>{' '}
     </div>
   );
 }

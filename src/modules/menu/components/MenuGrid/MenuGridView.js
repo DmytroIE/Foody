@@ -5,9 +5,8 @@ import MenuItemCard from '../MenuCard/MenuCard';
 
 import styles from './MenuGrid.module.css';
 
-const MenuGridView = ({ items = [], match, location }) => {
-  console.log('render list');
-  return items.length < 1 ? null : (
+const MenuGridView = ({ items = [], match, location, addToCart }) =>
+  items.length < 1 ? null : (
     <ul className={styles.list}>
       {items.map(({ id, name, image, price }) => (
         <li className={styles.item} key={id}>
@@ -19,9 +18,11 @@ const MenuGridView = ({ items = [], match, location }) => {
           >
             <MenuItemCard name={name} imageURL={image} price={price} />
           </Link>
+          <button type="button" onClick={() => addToCart(id)}>
+            Добавить
+          </button>
         </li>
       ))}
     </ul>
   );
-};
 export default MenuGridView;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -15,6 +15,7 @@ import MenuPage from '../../../../pages/MenuPage/MenuPage';
 import MenuItemPage from '../../../../pages/MenuItemPage/MenuItemPage';
 import OrderHistoryPage from '../../../../pages/OrderHistoryPage/OrderHistoryPage';
 import PlannerPage from '../../../../pages/PlannerPage/PlannerPage';
+import CartPage from '../../../../pages/CartPage/CartPage';
 import Spinner from '../Spinner/Spinner';
 
 import { getLoadingStatus } from '../../commonSelectors';
@@ -53,19 +54,17 @@ class App extends Component {
             <SignUpForm />
           </Tabs> */}
           <Switch>
-            <Route exact path="/" component={null} />
+            {/* <Route exact path="/" component={null} /> */}
             <Route exact path={routes.MENU} component={MenuPage} />
             <Route path={routes.MENU_ITEM} component={MenuItemPage} />
             <Route path={routes.ABOUT} component={AboutPage} />
             <Route path={routes.CONTACT} component={ContactPage} />
             <Route path={routes.DELIVERY} component={DeliveryPage} />
-            {/* <button type="button" onClick={this.openModal}>
-            Open Modal
-          </button>
-          {isModalOpen && <Modal onClose={this.closeModal} />} */}
             <Route path={routes.ACCOUNT} component={AccountPage} />
             <Route path={routes.ORDER_HYSTORY} component={OrderHistoryPage} />
             <Route path={routes.PLANNER} component={PlannerPage} />
+            <Route path={routes.CART} component={CartPage} />
+            <Redirect to={routes.MENU} />
           </Switch>
         </div>
         {isLoading && <Spinner />}

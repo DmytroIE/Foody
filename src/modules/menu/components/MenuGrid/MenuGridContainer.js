@@ -9,10 +9,15 @@ import MenuGridView from './MenuGridView';
 import { getMenuItems } from '../../menuSelectors';
 import { fetchMenuItems } from '../../menuOperations';
 
+import cart from '../../../cart';
+
 import { getCategoryFromLocation } from '../../../../utils/helpers';
 
 class MenuGridContainer extends Component {
+  // isNotFirstRender = false;
+
   componentDidMount() {
+    // this.isNotFirstRender = true;
     const { fetchItems, location } = this.props;
     fetchItems(getCategoryFromLocation(location));
   }
@@ -29,9 +34,17 @@ class MenuGridContainer extends Component {
   }
 
   render() {
-    console.log('render list container');
-    const { items, match, location } = this.props;
-    return <MenuGridView items={items} match={match} location={location} />;
+    const { items, match, location, addToCart } = this.props;
+    return (
+      // this.isNotFirstRender && (
+      <MenuGridView
+        items={items}
+        match={match}
+        location={location}
+        addToCart={addToCart}
+      />
+      // )
+    );
   }
 }
 
@@ -41,6 +54,7 @@ const mapProps = state => ({
 
 const mapDispatch = {
   fetchItems: fetchMenuItems,
+  addToCart: cart.actions.addToCart,
 };
 
 export default compose(
