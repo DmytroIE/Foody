@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:4000';
+import { baseURL, timeout } from './defaults';
+
+axios.defaults.baseURL = baseURL;
+axios.defaults.timeout = timeout;
 
 const getAllMenuItems = async () => {
   const response = await axios.get('/menu');

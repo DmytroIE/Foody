@@ -6,6 +6,7 @@ import {
 import * as actions from './menuActions';
 
 export const fetchMenuItems = category => async dispatch => {
+  // console.log('fetch list');
   dispatch(actions.fetchStart());
   try {
     let data;
@@ -21,6 +22,7 @@ export const fetchMenuItems = category => async dispatch => {
 };
 
 export const fetchCatedories = () => async dispatch => {
+  // console.log('fetch categories');
   dispatch(actions.fetchStart());
   try {
     const data = await getAllCategories();

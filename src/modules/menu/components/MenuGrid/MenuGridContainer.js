@@ -14,12 +14,19 @@ import cart from '../../../cart';
 import { getCategoryFromLocation } from '../../../../utils/helpers';
 
 class MenuGridContainer extends Component {
-  // isNotFirstRender = false;
-
   componentDidMount() {
-    // this.isNotFirstRender = true;
+    // console.log('list mounted');
+    this.isNotFirstRender = true;
     const { fetchItems, location } = this.props;
     fetchItems(getCategoryFromLocation(location));
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { items } = this.props;
+    console.log('MenuGrid', nextProps.items === items);
+    console.log(items);
+    console.log(nextProps.items);
+    return true;
   }
 
   componentDidUpdate(prevProps) {
@@ -28,22 +35,23 @@ class MenuGridContainer extends Component {
       getCategoryFromLocation(prevProps.location) ===
       getCategoryFromLocation(location)
     ) {
+      // console.log('list updated without fetch');
       return;
     }
+    // console.log('list updated with following fetch');
     fetchItems(getCategoryFromLocation(location));
   }
 
   render() {
     const { items, match, location, addToCart } = this.props;
+    // console.log('render list');
     return (
-      // this.isNotFirstRender && (
       <MenuGridView
         items={items}
         match={match}
         location={location}
         addToCart={addToCart}
       />
-      // )
     );
   }
 }

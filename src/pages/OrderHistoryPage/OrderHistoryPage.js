@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
-import OrderHistory from '../../modules/orderHistory/components/OrderHistory/OrderHistory';
-import Modal from '../../modules/common/components/Modal/Modal';
-import Spinner from '../../modules/common/components/Spinner/Spinner';
+import { connect } from 'react-redux';
+
+import orderHistory from '../../modules/orderHistory';
+
+import OrderHistoryTable from '../../modules/orderHistory/components/OrderHistoryTable/OrderHistoryTable';
+import CreateRecordForm from '../../modules/orderHistory/components/CreateRecordForm/CreateRecordForm';
 
 import styles from './OrderHistoryPage.module.css';
 
@@ -16,173 +19,101 @@ import {
 class OrderHistoryPage extends Component {
   state = {
     items: [],
-    isInfoModalShown: false,
-    infoModalText: '',
-    isCreateModalShown: false,
-    createdItem: { date: '', price: '', address: '', rating: '' },
-    isSpinnerShown: false,
+    isCreateFormShown: false,
   };
 
-  componentDidMount() {
-    getOrderHistoryItems()
-      .then(data => this.setState({ items: data }))
-      .catch(err => this.showInfoModal(err.message));
+  async componentDidMount() {
+    const { fetchStart, fetchSuccess, fetchError } = this.props;
+    fetchStart();
+    try {
+      const data = await getOrderHistoryItems();
+      this.setState({ items: data });
+      fetchSuccess();
+    } catch (error) {
+      fetchError(error);
+    }
   }
 
-  handleItemDelete = id => {
-    this.setState({ isSpinnerShown: true });
-    deleteOrderHistoryItem(id)
-      .then(() => {
-        this.setState(state => ({
-          items: state.items.filter(item => item.id !== id),
-          isSpinnerShown: false,
-        }));
-      })
-      .catch(err => {
-        this.setState({ isSpinnerShown: false });
-        this.showInfoModal(err.message);
-      });
+  handleItemDelete = async id => {
+    const { fetchStart, fetchSuccess, fetchError } = this.props;
+    fetchStart();
+    try {
+      await deleteOrderHistoryItem(id);
+      this.setState(state => ({
+        items: state.items.filter(item => item.id !== id),
+      }));
+      fetchSuccess();
+    } catch (error) {
+      fetchError(error);
+    }
   };
 
-  handleMoreInfo = id => {
-    this.setState({ isSpinnerShown: true });
-    getOrderHistoryItemByID(id)
-      .then(data => {
-        this.setState({ isSpinnerShown: false });
-        this.showInfoModal(JSON.stringify(data));
-      })
-      .catch(err => {
-        this.setState({ isSpinnerShown: false });
-        this.showInfoModal(err.message);
-      });
+  handleMoreInfo = async id => {
+    const { fetchStart, fetchSuccess, fetchError } = this.props;
+    fetchStart();
+    try {
+      const data = await getOrderHistoryItemByID(id);
+      fetchSuccess();
+      alert(data);
+    } catch (error) {
+      fetchError(error);
+    }
   };
 
-  showInfoModal = text => {
-    this.setState({
-      isInfoModalShown: true,
-      infoModalText: text,
-    });
+  handleCreateItem = async item => {
+    this.setState({ isCreateFormShown: false });
+    const { fetchStart, fetchSuccess, fetchError } = this.props;
+    const { items } = this.state;
+    fetchStart();
+    try {
+      const newItem = await createOrderHistoryItem(item);
+      this.setState({ items: [...items, newItem] });
+      fetchSuccess();
+    } catch (error) {
+      fetchError(error);
+    }
   };
 
-  closeInfoModal = () => {
-    this.setState({
-      isInfoModalShown: false,
-      infoModalText: '',
-    });
+  showCreateForm = () => {
+    this.setState({ isCreateFormShown: true });
   };
 
-  handleInputChange = ({ target: { name, value } }) => {
-    const { createdItem } = this.state;
-    this.setState({ createdItem: { ...createdItem, [name]: value } });
-  };
-
-  handleSubmit = evt => {
-    evt.preventDefault();
-    this.closeCreateModal();
-    this.setState({ isSpinnerShown: true });
-
-    const { createdItem } = this.state;
-    createOrderHistoryItem(createdItem)
-      .then(data => {
-        this.setState({ isSpinnerShown: false });
-        this.setState(state => ({ items: [...state.items, data] }));
-      })
-      .catch(err => {
-        this.setState({ isSpinnerShown: false });
-        this.showInfoModal(err.message);
-      });
-  };
-
-  showCreateModal = () => {
-    this.setState({
-      isCreateModalShown: true,
-    });
-  };
-
-  closeCreateModal = () => {
-    this.setState({
-      isCreateModalShown: false,
-    });
+  closeCreateForm = () => {
+    this.setState({ isCreateFormShown: false });
   };
 
   render() {
-    const {
-      items,
-      isInfoModalShown,
-      infoModalText,
-      isCreateModalShown,
-      createdItem,
-      isSpinnerShown,
-    } = this.state;
+    const { items, isCreateFormShown } = this.state;
     return (
       <section>
         <div className={styles.tableContainer}>
-          <OrderHistory
+          <OrderHistoryTable
             items={items}
             onDelete={this.handleItemDelete}
             onMoreInfo={this.handleMoreInfo}
           />
-          <button type="button" onClick={this.showCreateModal}>
+          <button type="button" onClick={this.showCreateForm}>
             Добавить запись
           </button>
         </div>
-        {isInfoModalShown && (
-          <Modal onClose={this.closeInfoModal}>
-            <p>{infoModalText} </p>
-          </Modal>
+        {isCreateFormShown && (
+          <CreateRecordForm
+            onSubmit={this.handleCreateItem}
+            onClose={this.closeCreateForm}
+          />
         )}
-
-        {isCreateModalShown && (
-          <Modal onClose={this.closeCreateModal}>
-            <p>Добавьте новую запись</p>
-            <form type="submit" onSubmit={this.handleSubmit}>
-              <label htmlFor="date" className={styles.inputlabel}>
-                Дата
-                <input
-                  name="date"
-                  type="date"
-                  value={createdItem.date}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              <label htmlFor="price" className={styles.inputlabel}>
-                Стоимость
-                <input
-                  name="price"
-                  type="number"
-                  min="0"
-                  value={createdItem.price}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              <label htmlFor="address" className={styles.inputlabel}>
-                Адрес
-                <input
-                  name="address"
-                  type="text"
-                  value={createdItem.address}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              <label htmlFor="rating" className={styles.inputlabel}>
-                Рейтинг
-                <input
-                  name="rating"
-                  type="number"
-                  min="0"
-                  max="10"
-                  value={createdItem.rating}
-                  onChange={this.handleInputChange}
-                />
-              </label>
-              <input type="submit" value="Создать" />
-            </form>
-          </Modal>
-        )}
-        {isSpinnerShown && <Spinner />}
       </section>
     );
   }
 }
 
-export default OrderHistoryPage;
+const mapDispatch = {
+  fetchStart: orderHistory.actions.fetchStart,
+  fetchSuccess: orderHistory.actions.fetchSuccess,
+  fetchError: orderHistory.actions.fetchError,
+};
+
+export default connect(
+  null,
+  mapDispatch,
+)(OrderHistoryPage);

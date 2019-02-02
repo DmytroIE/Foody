@@ -17,9 +17,6 @@ const Nav = () => (
         </li>
       ))}
     </ul>
-    <NavLink exact to="/cart">
-      cart
-    </NavLink>
   </nav>
 );
 

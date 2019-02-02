@@ -1,6 +1,10 @@
 import React from 'react';
+
+import { Link } from 'react-router-dom';
+
 import Logo from '../Logo/Logo';
 import Nav from '../Nav/Nav';
+import Cart from '../Cart/CartContainer';
 import UserMenu from '../../../user/components/UserMenu/UserMenu';
 
 import styles from './AppHeader.module.css';
@@ -15,6 +19,9 @@ function AppHeader(props) {
       <div className={styles.nav}>
         <Nav />
       </div>
+      <Link to="/cart">
+        <Cart />
+      </Link>
       <div className={styles.userMenu}>
         <UserMenu avatarSrc={avatarSrc} userName={userName} />
       </div>

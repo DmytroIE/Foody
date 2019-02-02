@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react';
 
 import styles from './Modal.module.css';
 
-class Modal extends Component {
+class ModalView extends Component {
   modalRef = createRef();
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class Modal extends Component {
   };
 
   render() {
-    const { onClose, children } = this.props;
+    const { onClose, message } = this.props;
     return (
       <div
         className={styles.backdrop}
@@ -39,7 +39,7 @@ class Modal extends Component {
         onClick={this.handleClick}
       >
         <div className={styles.window}>
-          <div>{children}</div>
+          <p>{message}</p>
           <button type="button" onClick={onClose}>
             Close
           </button>
@@ -49,4 +49,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default ModalView;

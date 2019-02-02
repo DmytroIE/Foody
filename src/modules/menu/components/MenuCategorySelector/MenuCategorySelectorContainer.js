@@ -13,8 +13,17 @@ import MenuCategorySelectorView from './MenuCategorySelectorView';
 
 class MenuCategorySelectorContainer extends Component {
   componentDidMount() {
+    // console.log('category mounted');
     const { fetchCategories } = this.props;
     fetchCategories();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { categories } = this.props;
+    console.log('MenuCategory', nextProps.categories === categories);
+    console.log(categories);
+    console.log(nextProps.categories);
+    return true;
   }
 
   onCategoryChange = ({ target: { value } }) => {
@@ -42,6 +51,7 @@ class MenuCategorySelectorContainer extends Component {
   };
 
   render() {
+    // console.log('render category');
     const { location, categories } = this.props;
     return (
       <MenuCategorySelectorView

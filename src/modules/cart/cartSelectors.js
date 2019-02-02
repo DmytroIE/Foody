@@ -5,6 +5,8 @@ import common from '../common';
 export const getCartIds = state => state.cart.ids;
 export const getCartAmounts = state => state.cart.amounts;
 
+export const getCartAmountsOfSelectedProducts = state => state.cart.ids.length;
+
 export const getCartItems = createSelector(
   [getCartIds, common.selectors.getItemsEntities, getCartAmounts],
   (ids, entities, amounts) =>

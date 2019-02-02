@@ -1,0 +1,23 @@
+.container {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.container svg {
+  fill: #580058;
+  width: 100%;
+}
+
+.amount {
+  position: absolute;
+  top: 23px;
+  left: 25px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgb(61, 6, 190);
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+}

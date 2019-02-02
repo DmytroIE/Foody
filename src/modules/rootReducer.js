@@ -8,6 +8,7 @@ import cart from './cart';
 export default combineReducers({
   entities: common.reducers.entities,
   loading: common.reducers.loading,
+  modals: common.reducers.modals,
   [menu.NAME]: menu.reducer,
   [cart.NAME]: cart.reducer,
 });

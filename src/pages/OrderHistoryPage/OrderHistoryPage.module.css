@@ -2,9 +2,3 @@
   width: 800px;
   margin: 0 auto;
 }
-
-.inputlabel {
-  display: flex;
-  justify-content: space-between;
-  width: 300px;
-}

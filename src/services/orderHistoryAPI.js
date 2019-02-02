@@ -1,35 +1,30 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:4000/orderHistory';
+import { baseURL, timeout } from './defaults';
 
-const getOrderHistoryItems = () =>
-  axios.get(`${BASE_URL}`).then(response => {
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    } else return response.data;
-  });
+axios.defaults.baseURL = baseURL;
+axios.defaults.timeout = timeout;
 
-const getOrderHistoryItemByID = id =>
-  axios.get(`${BASE_URL}/${id}`).then(response => {
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    } else return response.data;
-  });
+const getOrderHistoryItems = async () => {
+  const response = await axios.get('/orderHistory');
+  return response.data;
+};
 
-const createOrderHistoryItem = item =>
-  axios.post(BASE_URL, item).then(response => {
-    // console.log(response);
-    if (response.status !== 201) {
-      throw new Error(response.statusText);
-    } else return response.data;
-  });
+const getOrderHistoryItemByID = async id => {
+  const response = await axios.get(`/orderHistory/${id}`);
+  return response.data;
+};
 
-const deleteOrderHistoryItem = id =>
-  axios.delete(`${BASE_URL}/${id}`).then(response => {
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
-    } else return true;
-  });
+const createOrderHistoryItem = async item => {
+  const response = await axios.post(`/orderHistory`, item);
+  return response.data;
+};
+
+const deleteOrderHistoryItem = async id => {
+  const response = await axios.delete(`/orderHistory/${id}`);
+  console.log(response);
+  return true;
+};
 
 export {
   getOrderHistoryItems,

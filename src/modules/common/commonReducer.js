@@ -1,11 +1,14 @@
+import * as actionTypes from './commonActionTypes';
+
 const entities = (state = {}, action) => {
   if (action.payload && action.payload.entities) {
+    // console.log('entity reducer spreads entities');
     const newState = {};
     const keys = Object.keys(action.payload.entities);
     keys.forEach(key => {
       newState[key] = { ...state[key], ...action.payload.entities[key] };
     });
-    return newState;
+    return { ...state, ...newState };
   }
 
   return state;
@@ -27,4 +30,16 @@ const loading = (
   return state;
 };
 
-export { entities, loading };
+const modals = (state = [], { type, payload }) => {
+  if (type.includes('ERROR')) {
+    return [...state, payload];
+  }
+  if (type === actionTypes.CLOSE_MODAL) {
+    const newState = [...state];
+    newState.pop();
+    return newState;
+  }
+  return state;
+};
+
+export { entities, loading, modals };

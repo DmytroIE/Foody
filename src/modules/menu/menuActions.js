@@ -3,13 +3,15 @@ import { menuItemSchema, menuCategorySchema } from '../../schemas/schemas';
 
 import * as actionTypes from './menuActionTypes';
 
+const shortID = require('shortid');
+
 export const fetchStart = () => ({
   type: actionTypes.FETCH_START,
 });
 
 export const fetchError = error => ({
   type: actionTypes.FETCH_ERROR,
-  payload: error,
+  payload: { message: error.message, uuid: shortID.generate() },
 });
 
 export const fetchAllItemsSuccess = rawMenu => {

@@ -4,15 +4,12 @@ import MenuFilter from '../../modules/menu/components/MenuFilter/MenuFilterConta
 import MenuCategorySelector from '../../modules/menu/components/MenuCategorySelector/MenuCategorySelectorContainer';
 import MenuGrid from '../../modules/menu/components/MenuGrid/MenuGridContainer';
 
-const MenuPage = () => {
-  console.log('menu page');
-  return (
-    <section>
-      <MenuFilter />
-      <MenuCategorySelector />
-      <MenuGrid />
-    </section>
-  );
-};
+const MenuPage = () => (
+  <section>
+    <MenuFilter />
+    <MenuCategorySelector />
+    <MenuGrid />
+  </section>
+);
 
 export default MenuPage;
