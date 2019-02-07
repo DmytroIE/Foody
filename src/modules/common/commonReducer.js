@@ -14,24 +14,21 @@ const entities = (state = {}, action) => {
   return state;
 };
 
-const loading = (
-  state = { isLoading: false, error: null },
-  { type, payload },
-) => {
+const loading = (state = false, { type }) => {
   if (type.includes('FETCH_START')) {
-    return { isLoading: true, error: null };
+    return true;
   }
-  if (type.includes('FETCH_ERROR')) {
-    return { isLoading: false, error: payload };
-  }
-  if (type.includes('FETCH_SUCCESS')) {
-    return { isLoading: false, error: null };
+  // if (type.includes('FETCH_ERROR')) {
+  //   return { isLoading: false, error: payload };
+  // }
+  if (type.includes('FETCH_END')) {
+    return false;
   }
   return state;
 };
 
 const modals = (state = [], { type, payload }) => {
-  if (type.includes('ERROR')) {
+  if (type === actionTypes.FETCH_ERROR) {
     return [...state, payload];
   }
   if (type === actionTypes.CLOSE_MODAL) {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { getCategories } from '../../menuSelectors';
-import { fetchCatedories } from '../../menuOperations';
+import { fetchMenuCategories } from '../../menuOperations';
 
 import { getCategoryFromLocation } from '../../../../utils/helpers';
 
@@ -69,7 +69,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = {
-  fetchCategories: fetchCatedories,
+  fetchCategories: fetchMenuCategories,
 };
 
 export default compose(

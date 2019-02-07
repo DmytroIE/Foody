@@ -6,7 +6,7 @@ import { compose } from 'redux';
 
 import MenuGridView from './MenuGridView';
 
-import { getMenuItems } from '../../menuSelectors';
+import { getFilteredMenuItems } from '../../menuSelectors';
 import { fetchMenuItems } from '../../menuOperations';
 
 import cart from '../../../cart';
@@ -16,7 +16,6 @@ import { getCategoryFromLocation } from '../../../../utils/helpers';
 class MenuGridContainer extends Component {
   componentDidMount() {
     // console.log('list mounted');
-    this.isNotFirstRender = true;
     const { fetchItems, location } = this.props;
     fetchItems(getCategoryFromLocation(location));
   }
@@ -57,7 +56,7 @@ class MenuGridContainer extends Component {
 }
 
 const mapProps = state => ({
-  items: getMenuItems(state),
+  items: getFilteredMenuItems(state),
 });
 
 const mapDispatch = {

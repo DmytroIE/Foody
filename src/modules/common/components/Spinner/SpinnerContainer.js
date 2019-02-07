@@ -46,11 +46,7 @@ export class SpinnerContainer extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { loadingStatus } = nextProps;
     // Если сигнал loadingStatus=false пришел раньше, чем появился спиннер, он и не должен появиться
-    if (
-      loadingStatus === false &&
-      prevState.isShown === false &&
-      prevState.isShowDelayStarted === true
-    ) {
+    if (!loadingStatus && !prevState.isShown && prevState.isShowDelayStarted) {
       return {
         isShown: false,
         isShowDelayStarted: false,
@@ -59,7 +55,7 @@ export class SpinnerContainer extends Component {
       };
     }
     // Если сигнал loadingStatus=true,то запускаем задержку на появление спиннера
-    if (loadingStatus === true && prevState.isShown === false) {
+    if (loadingStatus && !prevState.isShown) {
       return {
         isShown: false,
         isShowDelayStarted: true,
@@ -68,7 +64,7 @@ export class SpinnerContainer extends Component {
       };
     }
     // Раз спиннер уже появился, то он должен побыть на экране хотя бы HideDelay время
-    if (loadingStatus === false && prevState.isShown === true) {
+    if (!loadingStatus && prevState.isShown) {
       return {
         isShown: true,
         isShowDelayStarted: false,

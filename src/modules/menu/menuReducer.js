@@ -13,7 +13,7 @@ const items = (state = [], { type, payload }) => {
 
 const categories = (state = [], { type, payload }) => {
   switch (type) {
-    case actionTypes.FETCH_SUCCESS_ALL_ITEMS:
+    // case actionTypes.FETCH_SUCCESS_ALL_ITEMS:
     case actionTypes.FETCH_SUCCESS_ALL_CATEGORIES:
       return payload.IDs.menuCategories;
     default:

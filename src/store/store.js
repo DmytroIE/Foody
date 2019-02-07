@@ -4,7 +4,9 @@ import thunk from 'redux-thunk';
 
 import rootReducer from '../modules/rootReducer';
 
-const middlewares = applyMiddleware(thunk);
+import { loadingSynchronizer } from '../modules/common/commonMiddleware';
+
+const middlewares = applyMiddleware(thunk, loadingSynchronizer);
 
 const store = createStore(rootReducer, composeWithDevTools(middlewares));
 
